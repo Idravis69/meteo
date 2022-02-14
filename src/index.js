@@ -1,11 +1,21 @@
-/**
- * This file is just a silly example to show everything working in the browser.
- * When you're ready to start on your site, clear the file. Happy hacking!
- **/
 
-import confetti from 'canvas-confetti';
 
-confetti.create(document.getElementById('canvas'), {
-  resize: true,
-  useWorker: true,
-})({ particleCount: 200, spread: 200 });
+document.getElementById('form').addEventListener('submit', function(e){
+    e.preventDefault()
+    let temp = document.getElementById('temperature');  
+    let selectville = document.getElementById('ville');
+    let ville = document.getElementById('input');
+    const url = 'https://api.openweathermap.org/data/2.5/weather?q='+ville.value+'&appid=8f91983681d3b66b246d7478ad1d774a&units=metric';
+    let ajax = new XMLHttpRequest;
+    ajax.responseType = "json";
+    ajax.open("GET", url)
+    ajax.send();
+    ajax.addEventListener("readystatechange", function(){
+        if(ajax.readyState === ajax.DONE){
+            selectville.innerHTML = ville.value + ': ';
+            temp.innerHTML = ajax.response.main.temp + '°C';
+    
+        }
+    })
+
+})
